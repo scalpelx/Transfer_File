@@ -39,13 +39,13 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    sockaddr_in clientaddr, serveraddr;
+    struct sockaddr_in clientaddr, serveraddr;
     memset(&serveraddr, 0, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serveraddr.sin_port = htons(SERVERPORT);
 
-    if (bind(sockfd, (const sockaddr *) &serveraddr, sizeof(serveraddr)) == -1) 
+    if (bind(sockfd, (const struct sockaddr *) &serveraddr, sizeof(serveraddr)) == -1) 
     {
         perror("Bind Error");
         exit(1);
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     }
 
     socklen_t addrlen = sizeof(clientaddr);
-    int connfd = accept(sockfd, (sockaddr *) &clientaddr, &addrlen);
+    int connfd = accept(sockfd, (struct sockaddr *) &clientaddr, &addrlen);
     if (connfd == -1) 
     {
         perror("Connect Error");

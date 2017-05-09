@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    sockaddr_in serveraddr;
+    struct sockaddr_in serveraddr;
     memset(&serveraddr, 0, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_port = htons(SERVERPORT);
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    if (connect(sockfd, (const sockaddr *) &serveraddr, sizeof(serveraddr)) < 0)
+    if (connect(sockfd, (const struct sockaddr *) &serveraddr, sizeof(serveraddr)) < 0)
     {
         perror("Connect Error");
         exit(1);
