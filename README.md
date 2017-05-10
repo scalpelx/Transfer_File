@@ -7,7 +7,7 @@ Linux file transmission program based on TCP/IP
     cd Transfer_File
     make
     
-## Run
+## Use
 
 ### Send file
 
