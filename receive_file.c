@@ -1,35 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include "transfer.h"
 
-void writefile(int sockfd, FILE *fp) 
-{
-    ssize_t n; //每次接受数据数量
-    char buff[MAX_LINE] = {0}; //数据缓存
-    while ((n = recv(sockfd, buff, MAX_LINE, 0)) > 0) 
-    {
-        if (n == -1)
-        {
-            perror("Receive File Error");
-            exit(1);
-        }
-        
-        //将接受的数据写入文件
-        if (fwrite(buff, sizeof(char), n, fp) != n)
-        {
-            perror("Write File Error");
-            exit(1);
-        }
-        memset(buff, 0, MAX_LINE); //清空缓存
-    }
-}
+
+void writefile(int sockfd, FILE *fp);
 
 int main(int argc, char *argv[]) 
 {
@@ -97,4 +76,26 @@ int main(int argc, char *argv[])
     fclose(fp);
     close(connfd);
     return 0;
+}
+
+void writefile(int sockfd, FILE *fp)
+{
+    ssize_t n; //每次接受数据数量
+    char buff[MAX_LINE] = {0}; //数据缓存
+    while ((n = recv(sockfd, buff, MAX_LINE, 0)) > 0) 
+    {
+        if (n == -1)
+        {
+            perror("Receive File Error");
+            exit(1);
+        }
+        
+        //将接受的数据写入文件
+        if (fwrite(buff, sizeof(char), n, fp) != n)
+        {
+            perror("Write File Error");
+            exit(1);
+        }
+        memset(buff, 0, MAX_LINE); //清空缓存
+    }
 }

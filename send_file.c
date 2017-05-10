@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
 #include <libgen.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -9,27 +8,7 @@
 #include <sys/socket.h>
 #include "transfer.h"
 
-void sendfile(FILE *fp, int sockfd) 
-{
-    int n; //每次读取数据数量
-    char sendline[MAX_LINE] = {0}; //暂存每次读取的数据
-    while ((n = fread(sendline, sizeof(char), MAX_LINE, fp)) > 0) 
-    {
-        if (n != MAX_LINE && ferror(fp)) //读取出错并且没有到达文件结尾
-        {
-            perror("Read File Error");
-            exit(1);
-        }
-        
-        //将读取的数据发送到TCP发送缓冲区
-        if (send(sockfd, sendline, n, 0) == -1)
-        {
-            perror("Can't send file");
-            exit(1);
-        }
-        memset(sendline, 0, MAX_LINE); //清空暂存字符串
-    }
-}
+void sendfile(FILE *fp, int sockfd);
 
 int main(int argc, char* argv[])
 {
@@ -103,3 +82,24 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+void sendfile(FILE *fp, int sockfd) 
+{
+    int n; //每次读取数据数量
+    char sendline[MAX_LINE] = {0}; //暂存每次读取的数据
+    while ((n = fread(sendline, sizeof(char), MAX_LINE, fp)) > 0) 
+    {
+        if (n != MAX_LINE && ferror(fp)) //读取出错并且没有到达文件结尾
+        {
+            perror("Read File Error");
+            exit(1);
+        }
+        
+        //将读取的数据发送到TCP发送缓冲区
+        if (send(sockfd, sendline, n, 0) == -1)
+        {
+            perror("Can't send file");
+            exit(1);
+        }
+        memset(sendline, 0, MAX_LINE); //清空暂存字符串
+    }
+}
