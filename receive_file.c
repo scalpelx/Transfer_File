@@ -7,7 +7,6 @@
 #include <sys/socket.h>
 #include "transfer.h"
 
-
 void writefile(int sockfd, FILE *fp);
 
 int main(int argc, char *argv[]) 
