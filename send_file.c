@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
     //读取并发送文件
     sendfile(fp, sockfd);
     puts("Send Success");
-    
+
     //关闭文件和套接字
     fclose(fp);
     close(sockfd);
