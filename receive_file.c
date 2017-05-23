@@ -67,7 +67,8 @@ int main(int argc, char *argv[])
     }
     
     //把数据写入文件
-    printf("Start receive file: %s from %s\n", filename, inet_ntoa(clientaddr.sin_addr));
+    char addr[INET_ADDRSTRLEN];
+    printf("Start receive file: %s from %s\n", filename, inet_ntop(AF_INET, &clientaddr.sin_addr, addr, INET_ADDRSTRLEN));
     writefile(connfd, fp);
     puts("Receive Success");
 
